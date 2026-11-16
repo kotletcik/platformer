@@ -24,8 +24,9 @@ namespace Game023
 
         void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.CompareTag("LevelExit"))
+            if (col.CompareTag("Exit"))
             {
+                GameManager.instance.AddPoints(100 * GameManager.instance.GetLives());
                 GameManager.instance.LevelCompleted();
                 Debug.Log("Level completed!");
             }

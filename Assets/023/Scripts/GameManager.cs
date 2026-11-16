@@ -1,5 +1,6 @@
 //Wiktoria Burniak, Paweł Gardzijewski
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
 using TMPro;
@@ -16,6 +17,8 @@ namespace Game023
         private GUIStyle levelCompletedStyle;
         private int livesNum = 3;
         public Canvas gameCanvas;
+        public Canvas pauseMenuCanvas;
+        public Canvas leveCompletedCanvas;
         public TMP_Text scoreLabel;
 
 
@@ -29,6 +32,7 @@ namespace Game023
                 {
                     scoreLabel.text = score.ToString();
                 }
+                InGame();
             }
             else
             {
@@ -47,6 +51,14 @@ namespace Game023
             {
                 gameCanvas.enabled = false;
             }
+            if (pauseMenuCanvas != null)
+            {
+                pauseMenuCanvas.enabled = currentGameState == GameState.GS_PAUSE_MENU;
+            }
+            if (leveCompletedCanvas != null)
+            {
+                leveCompletedCanvas.enabled = currentGameState == GameState.GS_LEVEL_COMPLETED;
+            }
         }
 
         public void PauseMenu()
@@ -57,6 +69,21 @@ namespace Game023
         public void InGame()
         {
             SetGameState(GameState.GS_GAME);
+        }
+
+        public void OnResumeButtonClicked()
+        {
+            InGame();
+        }
+
+        public void OnRestartButtonClicked()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        public void OnReturnToMainMenuButtonClicked()
+        {
+            SceneManager.LoadScene("MainMenu");
         }
 
         public void LevelCompleted()
