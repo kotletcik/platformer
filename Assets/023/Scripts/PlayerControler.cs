@@ -9,7 +9,7 @@ namespace Game023
         private Animator animator;
         private bool isRunning = false;
         private SpriteRenderer spriteRenderer;
-
+        
 
         [SerializeField] private LayerMask groundLayer;
 
@@ -26,16 +26,23 @@ namespace Game023
         {
             if (col.CompareTag("Exit"))
             {
-                GameManager.instance.AddPoints(100 * GameManager.instance.GetLives());
-                GameManager.instance.LevelCompleted();
-                Debug.Log("Level completed!");
+                if (GameManager.instance.keysCompleted)
+                {
+                    GameManager.instance.AddPoints(100 * GameManager.instance.GetLives());
+                    GameManager.instance.LevelCompleted();
+                    Debug.Log("Level completed!");
+                }
+                else
+                {
+                    Debug.Log("zbierz wszystko");
+                }
             }
 
             if (col.CompareTag("LevelFall"))
             {
                 Debug.Log("Player has fallen....");
                 GameManager.instance.AddLives(-1);
-                Debug.LogFormat("Utrata życia! Pozostała liczba żyć: {0}", GameManager.instance.GetLives());
+                //Debug.LogFormat("Utrata życia! Pozostała liczba żyć: {0}", GameManager.instance.GetLives());
             }
 
             if (col.CompareTag("Bonus"))
@@ -49,20 +56,40 @@ namespace Game023
                 if (transform.position.y > col.gameObject.transform.position.y)
                 {
                     Debug.Log("Killed an enemy");
+                    GameManager.instance.AddEagleKilled(1);
                 }
                 else
                 {
                     transform.position = startPosition;
                     GameManager.instance.AddLives(-1);
                     
-                    Debug.LogFormat("Utrata życia! Pozostała liczba żyć: {0}", GameManager.instance.GetLives());
+                    //Debug.LogFormat("Utrata życia! Pozostała liczba żyć: {0}", GameManager.instance.GetLives());
                     Debug.Log("Game Over");
                 }
             }
             if (col.CompareTag("Heart"))
             {
                 GameManager.instance.AddLives(1);
-                Debug.LogFormat("Zdobyto życie! Aktualny stan: {0}", GameManager.instance.GetLives());
+                //Debug.LogFormat("Zdobyto życie! Aktualny stan: {0}", GameManager.instance.GetLives());
+                col.gameObject.SetActive(false);
+            }
+            if (col.CompareTag("Key"))
+            {
+                Color gemColor = col.GetComponent<SpriteRenderer>().color;
+
+                if (col.gameObject.name == "Gem")
+                {
+                    GameManager.instance.AddKeys(0, gemColor);
+                }
+                else if (col.gameObject.name == "Gem (1)")
+                {
+                    GameManager.instance.AddKeys(1, gemColor);
+                }
+                else if (col.gameObject.name == "Gem (2)")
+                {
+                    GameManager.instance.AddKeys(2, gemColor);
+                }
+
                 col.gameObject.SetActive(false);
             }
 

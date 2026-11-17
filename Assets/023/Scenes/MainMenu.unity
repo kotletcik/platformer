@@ -406,6 +406,18 @@ PrefabInstance:
       propertyPath: m_text
       value: Level 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2621906553910897684, guid: 256c41528122f564a9c8c99203326ff3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 30379921}
+    - target: {fileID: 2621906553910897684, guid: 256c41528122f564a9c8c99203326ff3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnLevel1ButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2621906553910897684, guid: 256c41528122f564a9c8c99203326ff3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Game023.MainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

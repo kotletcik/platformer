@@ -20,8 +20,26 @@ namespace Game023
         public Canvas pauseMenuCanvas;
         public Canvas leveCompletedCanvas;
         public TMP_Text scoreLabel;
+        public TMP_Text HPLabel;
+        public TMP_Text Timer;
+        private float timeCounter;
+        public TMP_Text EaglesKilledLabel;
+        private int eaglesKilled = 0;
+        private int keysFound = 0;
+        public const int maxKeysNumber = 3;
+        public bool keysCompleted = false;
+        public Image[] keysTab;
 
-
+        public void AddKeys(int keyIndex, Color keyColor)
+        {
+            keysFound += 1;
+            keysTab[keyIndex].color = keyColor;
+            if (keysFound == maxKeysNumber)
+            {
+                keysCompleted = true;
+                Debug.Log("znaleziono klucze");
+            }
+        }
 
         void Awake()
         {
@@ -32,11 +50,27 @@ namespace Game023
                 {
                     scoreLabel.text = score.ToString();
                 }
+                if (HPLabel != null)
+                {
+                    HPLabel.text = livesNum.ToString();
+                }
+                if(Timer != null)
+                {
+                    Timer.text = "00:00";
+                }
+                if (EaglesKilledLabel != null)
+                {
+                    EaglesKilledLabel.text = eaglesKilled.ToString();
+                }
                 InGame();
             }
             else
             {
                 Debug.LogError("Duplicated Game Manager", gameObject);
+            }
+            for (int i = 0; i < maxKeysNumber; i++)
+            {
+                keysTab[i].color = Color.grey;
             }
         }
 
@@ -105,14 +139,22 @@ namespace Game023
         public void AddLives(int lives)
         {
             livesNum += lives;
+            
             if (livesNum < 0)
             {
                 livesNum = 0;
             }
+            HPLabel.text = livesNum.ToString();
         }
         public int GetLives()
         {
             return livesNum;
+        }
+        public void AddEagleKilled(int killed)
+        {
+            eaglesKilled += killed;
+            EaglesKilledLabel.text = eaglesKilled.ToString(); 
+            
         }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
@@ -134,6 +176,19 @@ namespace Game023
                     InGame();
                 }
             }
+            if (currentGameState == GameState.GS_GAME)
+            {
+                timeCounter += Time.deltaTime;
+                int minutes = Mathf.FloorToInt(timeCounter / 60f);
+                int seconds = Mathf.FloorToInt(timeCounter % 60f);
+
+                if (Timer != null)
+                {
+                    Timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+                }
+            }
+
+
         }
 
         void OnGUI()
