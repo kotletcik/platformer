@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8622575758857997226}
   - component: {fileID: 4350341720957716326}
   - component: {fileID: 5115512234799787275}
+  - component: {fileID: 2121483600541433595}
   m_Layer: 0
-  m_Name: S_ItemHeavyOutline_HeartBlue_00
+  m_Name: Heart
   m_TagString: Heart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,3 +129,25 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.045}
   m_Radius: 0.055
+--- !u!95 &2121483600541433595
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773109858920927515}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c28a2ee9b2a402940afed427c1879f93, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
