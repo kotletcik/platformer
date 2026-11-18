@@ -14,12 +14,13 @@ namespace Game023
         public static GameManager instance;
         public GameState currentGameState = GameState.GS_PAUSE_MENU;
         private int score = 0;
-        private GUIStyle levelCompletedStyle;
         private int livesNum = 3;
         public Canvas gameCanvas;
         public Canvas pauseMenuCanvas;
         public Canvas leveCompletedCanvas;
         public TMP_Text scoreLabel;
+        public TMP_Text levelCompletedScoreLabel;
+        public TMP_Text highScoreLabel;
         public TMP_Text HPLabel;
         public TMP_Text Timer;
         private float timeCounter;
@@ -27,6 +28,7 @@ namespace Game023
         private int eaglesKilled = 0;
         private int keysFound = 0;
         public const int maxKeysNumber = 3;
+        public const string keyHighScore = "HighScoreLevel1";
         public bool keysCompleted = false;
         public Image[] keysTab;
 
@@ -46,6 +48,10 @@ namespace Game023
             if (instance == null)
             {
                 instance = this;
+                if (!PlayerPrefs.HasKey(keyHighScore))
+                {
+                    PlayerPrefs.SetInt(keyHighScore, 0);
+                }
                 if (scoreLabel != null)
                 {
                     scoreLabel.text = score.ToString();
@@ -77,13 +83,9 @@ namespace Game023
         void SetGameState(GameState newGameState)
         {
             currentGameState = newGameState;
-            if (gameCanvas != null && currentGameState == GameState.GS_GAME)
+            if (gameCanvas != null)
             {
-                gameCanvas.enabled = true;
-            }
-            else
-            {
-                gameCanvas.enabled = false;
+                gameCanvas.enabled = currentGameState == GameState.GS_GAME;
             }
             if (pauseMenuCanvas != null)
             {
@@ -92,6 +94,27 @@ namespace Game023
             if (leveCompletedCanvas != null)
             {
                 leveCompletedCanvas.enabled = currentGameState == GameState.GS_LEVEL_COMPLETED;
+            }
+            if (newGameState == GameState.GS_LEVEL_COMPLETED)
+            {
+                Scene currentScene = SceneManager.GetActiveScene();
+                if (currentScene.name == "Level1")
+                {
+                    int highScore = PlayerPrefs.GetInt(keyHighScore);
+                    if (highScore < score)
+                    {
+                        highScore = score;
+                        PlayerPrefs.SetInt(keyHighScore, highScore);
+                    }
+                    if (levelCompletedScoreLabel != null)
+                    {
+                        levelCompletedScoreLabel.text = score.ToString();
+                    }
+                    if (highScoreLabel != null)
+                    {
+                        highScoreLabel.text = highScore.ToString();
+                    }
+                }
             }
         }
 
@@ -143,6 +166,7 @@ namespace Game023
             if (livesNum < 0)
             {
                 livesNum = 0;
+                GameOver();
             }
             HPLabel.text = livesNum.ToString();
         }
@@ -189,27 +213,6 @@ namespace Game023
             }
 
 
-        }
-
-        void OnGUI()
-        {
-            if (currentGameState == GameState.GS_LEVEL_COMPLETED)
-            {
-                if (levelCompletedStyle == null)
-                {
-                    levelCompletedStyle = new GUIStyle(GUI.skin.label)
-                    {
-                        alignment = TextAnchor.MiddleCenter,
-                        fontSize = 48
-                    };
-                    levelCompletedStyle.normal.textColor = Color.white;
-                }
-
-                GUI.Label(
-                    new Rect(0, 0, Screen.width, Screen.height),
-                    "POZIOM UKOŃCZONY!",
-                    levelCompletedStyle);
-            }
         }
     }
 }

@@ -42,6 +42,7 @@ namespace Game023
             {
                 Debug.Log("Player has fallen....");
                 GameManager.instance.AddLives(-1);
+                transform.position = startPosition;
                 //Debug.LogFormat("Utrata życia! Pozostała liczba żyć: {0}", GameManager.instance.GetLives());
             }
 
